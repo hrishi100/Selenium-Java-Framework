@@ -11,9 +11,10 @@ import org.testng.Assert;
 public class BBlog {
 
 	static WebDriver driver;
-	static String myText;
-	static String myArticle;
+	static String createTxt;
+	static String readTxt;
 	static String myBlog;
+	static int flag = 0;
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -33,11 +34,17 @@ public class BBlog {
 		System.out.println("!!!!!Read & validate post done !!!!");
 
 		// *----------------Search & find the POST---------------------------*//
-		// * give the article title to be searched. 
-		myBlog = "This is my article 02/03/2021 00:12:30";
-		//*-----------------------------------------------------------------*//
+		// * give the article title to be searched.
+		//myBlog = "This is my article 02/02/2021 23:28:25 - TRUPTI";
+	   myBlog = "This is my article 02/02/2021 22:57:15";
+
+		// *-----------------------------------------------------------------*//
 		findPost();
-		System.out.println("!!!!!Found & validate Post done  !!!!");
+		if (flag == 1) {
+			System.out.println("!!!!!Found & validate Post done  !!!!");
+		} else {
+			System.out.println("!!!!!Cannot Find the Post  !!!!");
+		}
 	}
 
 	// ==========================================================================================
@@ -73,9 +80,9 @@ public class BBlog {
 		String date1 = dateFormat.format(date);
 
 		// Article details are entered below
-		myText = "This is my article=>" + date1;
+		createTxt = "This is Rey's article=>" + date1;
 
-		driver.findElement(By.cssSelector("input[placeholder='Article Title']")).sendKeys(myText);
+		driver.findElement(By.cssSelector("input[placeholder='Article Title']")).sendKeys(createTxt);
 		driver.findElement(By.xpath(
 				"/html/body/app-root/app-article-editor/div/div/div/div/app-dynamic-form/form/app-input[2]/fieldset/input"))
 				.sendKeys("this is for automation test");
@@ -84,8 +91,8 @@ public class BBlog {
 		driver.findElement(By.cssSelector("input[placeholder='Enter Tags']")).sendKeys("#rey");
 		driver.findElement(By.xpath("//button[@class='btn btn-lg pull-xs-right btn-primary']")).click();
 		Thread.sleep(1500);
-		
-		System.out.println("ARTICLE TITLE CREATED:" + myText);
+
+		System.out.println("ARTICLE TITLE CREATED:" + createTxt);
 	}
 
 	// ==========================================================================================
@@ -93,20 +100,20 @@ public class BBlog {
 		// Go to home and click global feed
 		driver.findElement(By.xpath("//ul[@class='nav navbar-nav pull-xs-right']/li[1]/a")).click();
 		driver.findElement(By.xpath("//ul[@class='nav nav-pills outline-active']/li[2]/a")).click();
-		Thread.sleep(1500);
+		Thread.sleep(2000);
 
 		List<WebElement> articles = driver.findElements(By.cssSelector("div[class='article-preview'] a h1"));
 		// System.out.println("Total elements found : " + articles.size());
 		// System.out.println("printing 2nd element : " + articles.get(2).getText());
 
-		Thread.sleep(1500);
+		Thread.sleep(2000);
 
 		for (int i = 0; i < articles.size(); i++) {
-			myArticle = articles.get(i).getText();
-			// System.out.println("articles-list : " + i + "-->" + myArticle);
-			System.out.println("ARTICLE    READ:" + myArticle);
-			Assert.assertEquals(myText, myArticle);
-			System.out.println("The Article read from the Blog is:" + myArticle);
+			readTxt = articles.get(i).getText();
+			// System.out.println("articles-list : " + i + "-->" + readTxt);
+			System.out.println("ARTICLE TITLE READ:" + readTxt);
+			Assert.assertEquals(createTxt, readTxt);
+			System.out.println("The Article read from the Blog is:" + readTxt);
 			break;
 		}
 	}
@@ -117,29 +124,31 @@ public class BBlog {
 		driver.findElement(By.xpath("//ul[@class='nav navbar-nav pull-xs-right']/li[1]/a")).click();
 		driver.findElement(By.xpath("//ul[@class='nav nav-pills outline-active']/li[2]/a")).click();
 		Thread.sleep(1500);
-		List<WebElement> nxtPage=driver.findElements(By.cssSelector("ul[class='pagination'] li a"));
+		List<WebElement> nxtPage = driver.findElements(By.cssSelector("ul[class='pagination'] li a"));
 		// System.out.println("Total elements found : " + pages.size());
 
 		int x = 0;
-		int pagenum =1;
+		int pagenum = 1;
 		do {
 			List<WebElement> pages = driver.findElements(By.cssSelector("div[class='article-preview'] a h1"));
-			//System.out.println("Total elements found : " + pages.size());
+			// System.out.println("Total elements found : " + pages.size());
 			for (int y = 0; y < pages.size(); y++) {
 				String foundBlog = pages.get(y).getText();
-				//System.out.println(foundBlog);
-				//System.out.println(myBlog);
+				System.out.println(foundBlog);
 				if (foundBlog.equalsIgnoreCase(myBlog)) {
 					pagenum = pagenum + x;
-					System.out.println("Searched Blog for Article : "+ foundBlog + " : and finally found on Page: "+ pagenum);
-					x = 24;
+					System.out.println(
+							"Searched Blog for Article : " + foundBlog + " : and finally found on Page: " + pagenum);
+					flag = 1;
+					x = 50;
 					break;
 				}
 			}
 			x++;
+			System.out.println("Completed Reading Page :" + x);
 			nxtPage.get(x).click();
-			Thread.sleep(1500);
-		} while (x < 24);
+			Thread.sleep(1000);
+		} while (x < 50);
 
 	}
 
