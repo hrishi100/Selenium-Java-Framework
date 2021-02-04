@@ -1,0 +1,32 @@
+/-----------------WHAT & WHY AUTOMATION----------------------------------------------------------------/
+The automation focuses on 3 major functions 
+1) Create post
+2) Read the created post
+3) Find a Random Post on the article title. 
+
+I havent automated other functions like CR*D Comments on Articles, Tag Favourite articles, Follow users because of following reasoin
+1) These are not core functions
+2) These dont often change so are less priority when requires to be addded to regression suite.
+
+/--------------HOW TO RUN-------------------------------------------------------------------/
+The automation is done in Selenium tool.
+The automation program names BBlog.java can be executed via the IDE.
+
+I have created functions for 
+1)Configuiring the browser 				: setBrowserConfig();
+
+2)Open Webpage & Login     				: openWebsite();
+
+3)Creating article (with only Article Title for now) 	: createPost();
+
+4)Validating is the same is posted 			: readPost();
+
+5)Finding the article based on Article title		: findPost();
+
+Note: 
+1) The article title is created with Date time appended in the end
+2) The article to be searched in the pages , the title is hardcoded as String and passed in the findPost() function.
+
+The console displayes few messages which help notify the success of the above functions.
+/------------------------------------------------------------------------------------------/
+
