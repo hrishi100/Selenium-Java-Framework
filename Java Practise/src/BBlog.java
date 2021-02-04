@@ -18,7 +18,7 @@ public class BBlog {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		// *------- Set Browser----------------------------------------------*//
+		// *------- Set Browser-Final----------------------------------------*//
 		setBrowserConfig();
 
 		// *------- Open the Webpage to test & login------------------------*//
@@ -35,8 +35,8 @@ public class BBlog {
 
 		// *----------------Search & find the POST---------------------------*//
 		// * give the article title to be searched.
-		//myBlog = "This is my article 02/02/2021 23:28:25 - TRUPTI";
-	   myBlog = "This is my article 02/02/2021 22:57:15";
+		// myBlog = "This is my article 02/02/2021 23:28:25 - TRUPTI";
+		myBlog = "This is my article 02/02/2021 22:57:15";
 
 		// *-----------------------------------------------------------------*//
 		findPost();
@@ -131,10 +131,8 @@ public class BBlog {
 		int pagenum = 1;
 		do {
 			List<WebElement> pages = driver.findElements(By.cssSelector("div[class='article-preview'] a h1"));
-			// System.out.println("Total elements found : " + pages.size());
 			for (int y = 0; y < pages.size(); y++) {
 				String foundBlog = pages.get(y).getText();
-				System.out.println(foundBlog);
 				if (foundBlog.equalsIgnoreCase(myBlog)) {
 					pagenum = pagenum + x;
 					System.out.println(
